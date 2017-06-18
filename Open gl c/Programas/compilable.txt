@@ -1,0 +1,5 @@
+gcc prueba.c -lGL -lglut -o prueba
+
+luego
+
+./prueba
