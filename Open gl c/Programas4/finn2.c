@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 
-float scale_x=1.0,scale_y=1.0,scale_z=1.0,rotate_x=0.0,rotate_y=0.0,rotate_z=0.0,translate_x=0.0,translate_y=0.0,translate_z=0.0;
 
 void reshape(int width, int height){
  glViewport(0, 0, width, height);
@@ -12,28 +11,184 @@ void reshape(int width, int height){
  glOrtho(-100, 100, -100, 100, -100, 100);
  glMatrixMode(GL_MODELVIEW);
 }
+void linea(int x1, int y1, int x2, int y2){
+	glBegin(GL_LINES);
+		glVertex3f(x1,y1,0.0);
+		glVertex3f(x2,y2,0.0);
+	glEnd();
+}
+void pintalineas(int xc, int yc, int r){ 
+	int p,x,y;
+x=0; y=r; p=(float)5/4-r;
+glBegin(GL_POINTS);
+while(y>x)
+{ 
+	if(x%1==0){	
+
+//Esquinas
+//linea(xc+x,100,xc+x,yc+y);
+linea(100,100,xc+x,yc+y); //1 derecha arriba
+
+//linea(xc-x,100,xc-x,yc+y);
+linea(-100,100,xc-x,yc+y); //1 izquierda arriba
+
+//linea(xc+x,-100,xc+x,yc-y);
+linea(100,-100,xc+x,yc-y); //1 derecha abajo
+ 
+ //linea(xc-x,-100,xc-x,yc-y);
+ linea(-100,-100,xc-x,yc-y); // 1 izquierda abajo
+
+//linea(xc+y,100,xc+y,yc+x);
+linea(100,100,xc+y,yc+x); //2 derecha arriba
+
+//linea(xc+y,-100,xc+y,yc-x);
+linea(100,-100,xc+y,yc-x); // 2derecha abajo
+
+//linea(xc-y,100,xc-y,yc+x);
+linea(-100,100,xc-y,yc+x); //2 izquierda arriba
+
+//linea(xc-y,-100,xc-y,yc-x);
+linea(-100,-100,xc-y,yc-x); //2 izquierda abajo
+
+
+//Enmedio
+
+//linea(xc+x,100,xc+x,yc+y);
+linea(0,0,xc+x,yc+y);
+
+//linea(xc-x,100,xc-x,yc+y);
+linea(0,0,xc-x,yc+y);
+
+//linea(xc+x,-100,xc+x,yc-y);
+linea(0,0,xc+x,yc-y);
+ 
+ //linea(xc-x,-100,xc-x,yc-y);
+ linea(0,0,xc-x,yc-y);
+
+//linea(xc+y,100,xc+y,yc+x);
+linea(0,0,xc+y,yc+x);
+
+//linea(xc+y,-100,xc+y,yc-x);
+linea(0,0,xc+y,yc-x);
+
+//linea(xc-y,100,xc-y,yc+x);
+linea(0,0,xc-y,yc+x);
+
+//linea(xc-y,-100,xc-y,yc-x);
+linea(0,0,xc-y,yc-x);
+
+//Estrella
+
+
+//linea(xc+x,100,xc+x,yc+y);
+linea(0,100,xc+x,yc+y); //1 derecha arriba
+
+//linea(xc-x,100,xc-x,yc+y);
+linea(0,100,xc-x,yc+y); //1 izquierda arriba
+
+//linea(xc+x,-100,xc+x,yc-y);
+linea(0,-100,xc+x,yc-y); //1 derecha abajo
+ 
+ //linea(xc-x,-100,xc-x,yc-y);
+ linea(0,-100,xc-x,yc-y); // 1 izquierda abajo
+
+//linea(xc+y,100,xc+y,yc+x);
+linea(100,0,xc+y,yc+x); //2 derecha arriba
+
+//linea(xc+y,-100,xc+y,yc-x);
+linea(100,0,xc+y,yc-x); // 2derecha abajo
+
+//linea(xc-y,100,xc-y,yc+x);
+linea(-100,0,xc-y,yc+x); //2 izquierda arriba
+
+//linea(xc-y,-100,xc-y,yc-x);
+linea(-100,0,xc-y,yc-x); //2 izquierda abajo
+
+}
+if (p<0) {p+=2*x+3;}
+else { p+=2*(x-y)+5; y--;};
+x++;
+}
+glEnd();
+}
+
+void cir_bres(int xc, int yc, int r){ 
+	int p,x,y;
+x=0; y=r; p=(float)5/4-r;
+glBegin(GL_POINTS);
+while(y>x)
+{ 
+	glVertex3f(xc+x,yc+y,0.0); 
+	glVertex3f(xc-x,yc+y,0.0);
+glVertex3f(xc+x,yc-y,0.0);
+ glVertex3f(xc-x,yc-y,0.0);
+glVertex3f(xc+y,yc+x,0.0); 
+glVertex3f(xc+y,yc-x,0.0);
+glVertex3f(xc-y,yc+x,0.0); 
+glVertex3f(xc-y,yc-x,0.0);
+if (p<0) {p+=2*x+3;}
+else { p+=2*(x-y)+5; y--;};
+x++;
+}
+glEnd();
+}
+void pintaluna(){
+	int i=0;
+glColor3ub(255, 255, 255);
+for(i=200;i>0;i--){
+cir_bres(0,0,i);
+}
+}
 void cuadricula(){
-	int x,y,z,i;
-	srand(time(NULL));
-	while(0<1){
-	x=rand()%2;
-	y=rand()%2;
-	z=rand()%2;
-	if(x!=0||y!=0||z!=0){
-	break;
-	}
-}
-glColor3f(x,y,z);
-	for(i=-100;i<=100;i+=10){
-	glBegin(GL_LINES);
-	glVertex3f(-100,i,100);
-	glVertex3f(100,i,100);
+	glColor3ub(104, 68, 67);
+	glBegin(GL_QUADS);
+	glVertex3f(-100,-100,0);
+	glVertex3f(100,-100,0);
+	glVertex3f(100,50,0);
+	glVertex3f(-100,50,0);
 	glEnd();
-	glBegin(GL_LINES);
-	glVertex3f(i,-100,100);
-	glVertex3f(i,100,100);
+	
+glColor3ub(255, 255, 255);
+int x,y;
+	int i=250; 
+	while(i>0){
+		 x=rand () % 200-100;
+		 y=rand () % 50+50;
+	glBegin(GL_POINTS);
+	glVertex3f(x,y,0);
 	glEnd();
+	i--;
 }
+glColor3ub(10, 127, 0);
+	i=10000;
+	while(i>0){
+		x=rand () % 200-100;
+		y=rand () % 150-100;
+	glBegin(GL_POINTS);
+	glVertex3f(x,y,0);
+	glEnd();
+	i--;
+}
+glColor3ub(45, 45, 45);
+	glBegin(GL_QUADS);
+	glVertex3f(-100,-100,0);
+	glVertex3f(-0,-100,0);
+	glVertex3f(50,50,0);
+	glVertex3f(0,50,0);
+	glEnd();
+	glColor3f(255, 255, 255);
+	glBegin(GL_QUADS);
+	glVertex3f(-50,-75,0);
+	glVertex3f(-25,-75,0);
+	glVertex3f(0,-25,0);
+	glVertex3f(-25,-25,0);
+	glEnd();
+	glBegin(GL_QUADS);
+	glVertex3f(-15,0,0);
+	glVertex3f(10,0,0);
+	glVertex3f(30,40,0);
+	glVertex3f(10,40,0);
+	glEnd();
 glFlush();
 }
 void finn(){
@@ -1190,155 +1345,37 @@ void display(){
 	glLoadIdentity();
 	cuadricula();
 	glLoadIdentity();
-	glScalef( scale_x, scale_y, scale_z ); 
-	glRotatef( rotate_x, 1.0, 0.0, 0.0 );
-	glRotatef( rotate_y, 0.0, 1.0, 0.0 );
-	glRotatef( rotate_z, 0.0, 0.0, 1.0 );
-	glTranslatef(translate_x,translate_y,translate_z);
+	glScalef( .25, .25, .25 ); 
+	glTranslatef(-240,300,0);
+	pintalineas(0,0,20);
+	glLoadIdentity();
+	glScalef( .1, .1, .1 ); 
+	glTranslatef(900,900,0);
+	pintaluna();
+	glLoadIdentity();
+	glScalef( .5, .5, .5 ); 
+	glTranslatef(-30,-50,0);
+	finn();
+	glLoadIdentity();
+	glScalef( .3, .3, .3 ); 
+	glTranslatef(40,160,0);
+	finn();
+	glLoadIdentity();
+	glScalef( .25, .25, .25 ); 
+	glTranslatef(320,-300,0);
+	glRotatef( 90, 0.0, 1.0, 0.0 );
+	finn();
+	glLoadIdentity();
+	glScalef( .3, .3, .3 ); 
+	glTranslatef(250,120,0);
+	glRotatef( 90, 0.0, 1.0, 0.0 );
 	finn();
 	glFlush();
 	glutSwapBuffers();
 };
-void keyboard( unsigned char key, int x, int y ) {
-  switch(key){
-  case 'q':
-  scale_x+=.1;
-  break;
-  case 'Q':
-  scale_x+=.1;
-  break;
-  case 'a':
-  scale_x-=.1;
-  break;
-  case 'A':
-  scale_x-=.1;
-  break;
-  case 'w':
-  scale_y+=.1;
-  break;
-  case 'W':
-  scale_y+=.1;
-  break;
-  case 's':
-  scale_y-=.1;
-  break;
-  case 'S':
-  scale_y-=.1;
-  break;
-  case 'e':
-  scale_z+=.1;
-  break;
-  case 'E':
-  scale_z+=.1;
-  break;
-  case 'D':
-  scale_z-=.1;
-  break;
-  case 'd':
-  scale_z-=.1;
-  break;
-  case 'r':
-  rotate_x+=5.0;
-  break;
-  case 'R':
-  rotate_x+=5.0;
-  break;
-  case 'f':
-  rotate_x-=5.0;
-  break;
-  case 'F':
-  rotate_x-=5.0;
-  break;
-  case 't':
-  rotate_y+=5.0;
-  break;
-  case 'T':
-  rotate_y+=5.0;
-  break;
-  case 'g':
-  rotate_y-=5.0;
-  break;
-  case 'G':
-  rotate_y-=5.0;
-  break;
-  case 'y':
-  rotate_z+=5.0;
-  break;
-  case 'Y':
-  rotate_z+=5.0;
-  break;
-  case 'h':
-  rotate_z-=5.0;
-  break;
-  case 'H':
-  rotate_z-=5.0;
-  break;
-  case 'u':
-  translate_x+=5.0;
-  break;
-  case 'U':
-  translate_x+=5.0;
-  break;
-  case 'j':
-  translate_x-=5.0;
-  break;
-  case 'J':
-  translate_x-=5.0;
-  break;
-  case 'i':
-  translate_y+=5.0;
-  break;
-  case 'I':
-  translate_y+=5.0;
-  break;
-  case 'k':
-  translate_y-=5.0;
-  break;
-  case 'K':
-  translate_y-=5.0;
-  break;
-  case 'o':
-  translate_z+=5.0;
-  break;
-  case 'O':
-  translate_z+=5.0;
-  break;
-  case 'l':
-  translate_z-=5.0;
-  break;
-  case 'L':
-  translate_z-=5.0;
-  break;
-  case 'p':
-  scale_x=1.0;
-  scale_y=1.0;
-  scale_z=1.0;
-  rotate_x=0.0;
-  rotate_y=0.0;
-  rotate_z=0.0;
-  translate_x=0.0;
-  translate_y=0.0;
-  translate_z=0.0;
-  break;
-  case 'P':
-  scale_x=1.0;
-  scale_y=1.0;
-  scale_z=1.0;
-  rotate_x=0.0;
-  rotate_y=0.0;
-  rotate_z=0.0;
-  translate_x=0.0;
-  translate_y=0.0;
-  translate_z=0.0;
-  break;
-  } 
-  glutPostRedisplay();
- 
-}
 void init(){
- glClearColor(0.94,0.69,0.0,1.0);
+ glClearColor(0,0,0,0);
 }
-
 int main(int argc, char **argv){
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
@@ -1347,7 +1384,6 @@ int main(int argc, char **argv){
 	glutCreateWindow("Finn the human");
 	init();
 	glutDisplayFunc(display);
-	glutKeyboardFunc(keyboard);
 	glutReshapeFunc(reshape);
 	glutMainLoop();
 	return 0;

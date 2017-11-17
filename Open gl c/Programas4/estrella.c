@@ -155,7 +155,7 @@ void display(){
 	}
 }
 	glColor3f(x,y,z);
-	pintalineas(0,0,50);
+	//pintalineas(0,0,50);
 	
 	
 	
