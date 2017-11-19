@@ -16,14 +16,14 @@ void cuadricula(){
 	int x,y,z,i;
 	srand(time(NULL));
 	while(0<1){
-	x=rand()%2;
-	y=rand()%2;
-	z=rand()%2;
-	if(x!=0||y!=0||z!=0){
+	x=rand()%255;
+	y=rand()%255;
+	z=rand()%255;
+	if((x!=0&&x!=255)||(y!=0&&y!=255)||(z!=0&&z!=255)){
 	break;
 	}
 }
-glColor3f(x,y,z);
+glColor3ub(x,y,z);
 	for(i=-100;i<=100;i+=10){
 	glBegin(GL_LINES);
 	glVertex3f(-100,i,-100);
